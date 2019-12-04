@@ -4,6 +4,7 @@
 ![Image of Yaktocat](https://github.com/Korts/bx-cert-parser/blob/master/scheme.PNG?raw=true)
 ### Результаты
 Время выполнения: 58 секунд.
+
 Записей в БД: 1551
 - 34 раздела
 - 619 вопросов
