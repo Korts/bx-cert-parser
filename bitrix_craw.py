@@ -43,7 +43,7 @@ url = 'https://bx-cert.ru/certification/bitrix/'
 page = requests.get(url)
 print('Ответ сервера на запрос страницы с разделами:', page.status_code, datetime.datetime.now() - dt)
 soup = BeautifulSoup(page.text, "html.parser")
-items = soup.findAll('li', class_='cert-list')
+items = soup.select('li.cert-list')
 for item in items:
     item_name = item.a.text
     item_id = item.a.get('href').split('/')[-2]
