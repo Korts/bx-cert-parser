@@ -6,7 +6,7 @@ import threading
 
 lock = threading.Lock()
 dt = datetime.datetime.now()
-db = pymysql.connect(host='127.0.0.1', port=3306, database='certme', user='root')
+db = pymysql.connect(host='127.0.0.1', port=3306, database='certme', user='root', autocommit=True)
 cur = db.cursor()
 tests = []
 
@@ -23,7 +23,6 @@ def get_questions(link, parent_id):
         get_responses(question.get('href'))
         with lock:
             cur.execute(sql, (question_name, parent_id, question_id))
-            db.commit()
     print('Вопросы из раздела', parent_id, 'записан в БД', datetime.datetime.now() - dt)
 
 
@@ -36,7 +35,6 @@ def get_responses(link):
     for response in responses:
         with lock:
             cur.execute(sql, (response.text.strip(), link.split('/')[-2]))
-            db.commit()
 
 
 url = 'https://bx-cert.ru/certification/bitrix/'
@@ -53,5 +51,4 @@ for item in items:
         cur.execute(sql, (item_name, item_id, item_href))
     threading.Thread(target=get_questions, args=(item_href, item_id)).start()
 with lock:
-    db.commit()
     print('Разделы записаны в БД')
